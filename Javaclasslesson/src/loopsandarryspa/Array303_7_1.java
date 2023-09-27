@@ -47,7 +47,7 @@ public class Array303_7_1 {
 		}
 		System.out.println("Task 5: Array elements: " + Arrays.toString(task5Array));
 
-		// Task 6
+		
 	}
 	}
 }
