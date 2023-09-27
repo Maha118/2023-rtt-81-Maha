@@ -22,7 +22,7 @@ public class ConditionalStatment {
 			System.out.println("Greater than 10");
 		}
 
-		// Qustion number Three
+		// Question number Three
 
 		int z = 15; // Declare and initialize x with the value 15
 
@@ -65,6 +65,43 @@ public class ConditionalStatment {
 		scanner.close();
 
 		// Question number Six
+
+		Scanner scanner1 = new Scanner(System.in);
+
+		System.out.print("Enter an integer between 1 and 7: ");
+		int dayNumber = scanner1.nextInt();
+		String day;
+
+		switch (dayNumber) {
+		case 1:
+			day = "Sunday";
+			break;
+		case 2:
+			day = "Monday";
+			break;
+		case 3:
+			day = "Tuesday";
+			break;
+		case 4:
+			day = "Wednesday";
+			break;
+		case 5:
+			day = "Thursday";
+			break;
+		case 6:
+			day = "Friday";
+			break;
+		case 7:
+			day = "Saturday";
+			break;
+		default:
+			day = "Out of range";
+			break;
+		}
+
+		System.out.println("Corresponding weekday: " + day);
+
+		scanner1.close();
 
 	}
 }

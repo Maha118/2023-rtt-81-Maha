@@ -23,7 +23,7 @@ public class arrys {
 			}
 			;
 			// write a for loop that counts the number of nulls in the array
-			// after the loop compleres prints that number
+			// after the loop completes prints that number
 			int nullCount = 0;
 			for (String value : stringArray) {
 				if (value == null) {

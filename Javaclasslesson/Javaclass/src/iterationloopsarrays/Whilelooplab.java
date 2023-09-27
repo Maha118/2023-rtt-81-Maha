@@ -19,6 +19,7 @@ public class Whilelooplab {
 					System.out.println("Your guess is too high");
 				else
 					System.out.println("Your guess is too low");
+
 			} // End of loop
 		}
 	}
