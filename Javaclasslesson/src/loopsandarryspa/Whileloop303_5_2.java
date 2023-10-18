@@ -19,7 +19,11 @@ public class Whileloop303_5_2 {
 				System.out.println("Your guess is too high");
 			else
 				System.out.println("Your guess is too low");
+
 		} // End of loop
+
+		input.close();
+
 	}
 
 }
