@@ -2,40 +2,56 @@ package org.perscholas.database.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.perscholas.database.entity.Product;
-
 
 public class ProductDAO {
 	public Product findById(Integer id) {
 		SessionFactory factory = new Configuration().configure().buildSessionFactory();
 		Session session = factory.openSession();
-		
-		String hql = "FROM Customer c WHERE c.id = :id"; // Example of HQL to get all records of user class
-		
+
+		String hql = "FROM Product p WHERE p.id = :id"; // Example of HQL to get all records of user class
+
 		TypedQuery<Product> query = session.createQuery(hql, Product.class);
 		query.setParameter("id", id);
-		
-Product result = query.getSingleResult();
-		return result;
+
+		try {
+			Product result = query.getSingleResult();
+
+			return result;
+		} catch (NoResultException nre) {
+			return null;
+		}
 	}
-	
-	public List<Product> findByFirstName(String fname) {
+
+	public List<Product> findByName(String name) {
 		SessionFactory factory = new Configuration().configure().buildSessionFactory();
 		Session session = factory.openSession();
-		
-		// Example of HQL to get all records of user class
-		// SQL is : select * from customers c where c.contact_firstname = :firstname and c.contact_lastname = :lastname
-		String hql = "FROM Customer c WHERE c.contactFirstname = :firstname"; 
-		
+
+		String hql = "FROM Product p WHERE p.productName = :name"; // Example of HQL to get all records of user class
+
 		TypedQuery<Product> query = session.createQuery(hql, Product.class);
-		query.setParameter("firstname",fname);
-		
+		query.setParameter("name", name);
 		List<Product> result = query.getResultList();
+		session.close();
+
 		return result;
 	}
+
+	public void save(Product product) {
+		SessionFactory factory = new Configuration().configure().buildSessionFactory();
+		Session session = factory.openSession();
+
+		Transaction t = session.beginTransaction();
+		session.saveOrUpdate(product);
+		t.commit();
+		session.close();
+	}
+
 }
