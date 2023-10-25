@@ -8,15 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class PreparedStatementExample {
+public class preparedStatementExample {
 	// 1) Expand the output inside the while loop to also print out the last name
 	// 2) Use the scanner to also ask for the last name and modify the query to
 	// searcy for
 	// firstname and lastname
 
 	public static void main(String[] args) throws SQLException {
-		// change this query string to use localhost instead of 192.168.2.100
-		String dburl = "jdbc:mysql://localhost/classicmodels";
+		// change this query string to use local host instead of 192.168.2.100
+		String dburl = "jdbc:mysql://localhost:3306/classic_models";
 		String user = "root";
 		String password = "mahelet1975$";
 
