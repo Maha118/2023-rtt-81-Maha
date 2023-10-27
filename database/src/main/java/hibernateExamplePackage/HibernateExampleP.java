@@ -34,6 +34,7 @@ public class HibernateExampleP {
 		} finally {
 			session.close();
 			factory.close();
+			scanner.close();
 		}
 	}
 

@@ -1,9 +1,15 @@
 package org.perscholas.database.entity;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -11,9 +17,14 @@ import javax.persistence.Table;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
+
 	@Column(name = "id")
 	private Integer id;
+	// dont forget to generate your new getters and setters
+	// remind me tomorrow to talk about lombok!!!!
+	// https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Order> orders;
 
 	@Column(name = "customer_name")
 	private String customerName;
@@ -50,14 +61,22 @@ public class Customer {
 
 	@Column(name = "credit_limit", columnDefinition = "Decimal(10,2)")
 	private Double creditLimit;
-	// generate getters and setters
 
+	// generate getters and setters
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public String getCustomerName() {
@@ -152,8 +171,7 @@ public class Customer {
 		return creditLimit;
 	}
 
-	public void setCreditLimit(double string) {
-		this.creditLimit = creditLimit;
+	public void setCreditLimit(double d) {
+		this.creditLimit = (double) d;
 	}
-
 }

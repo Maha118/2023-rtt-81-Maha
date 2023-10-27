@@ -1,9 +1,6 @@
 package hibernateExamplePackage;
 
-import java.util.List;
-
 import org.perscholas.database.dao.CustomerDAO;
-import org.perscholas.database.dao.OrderDAO;
 import org.perscholas.database.entity.Customer;
 
 public class HibernateExampleO {

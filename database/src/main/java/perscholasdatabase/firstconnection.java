@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class firstconnection {
+public class FirstConnection {
 	public static void main(String[] args) throws SQLException {
 		String dburl = "jdbc:mysql://localhost:3306/classic_models";
 		String user = "root";

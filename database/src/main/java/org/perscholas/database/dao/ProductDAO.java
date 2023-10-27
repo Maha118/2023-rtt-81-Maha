@@ -37,7 +37,7 @@ public class ProductDAO {
 		String hql = "FROM Product p WHERE p.productName = :name"; // Example of HQL to get all records of user class
 
 		TypedQuery<Product> query = session.createQuery(hql, Product.class);
-		query.setParameter("name", name);
+		query.setParameter("name", "%" + name + "%");
 		List<Product> result = query.getResultList();
 		session.close();
 

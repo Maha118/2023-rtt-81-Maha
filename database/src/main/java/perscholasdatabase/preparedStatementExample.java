@@ -5,10 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
-public class preparedStatementExample {
+public class PreparedStatementExample {
 	// 1) Expand the output inside the while loop to also print out the last name
 	// 2) Use the scanner to also ask for the last name and modify the query to
 	// searcy for

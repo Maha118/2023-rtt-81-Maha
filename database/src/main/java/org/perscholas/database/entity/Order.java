@@ -1,7 +1,9 @@
 package org.perscholas.database.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,32 +24,42 @@ import javax.persistence.TemporalType;
 
 	public class Order {
 		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		@Column(name = "id")
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @Column(name = "id")
 		private Integer id;
+	    
+		// this variable becomes read only because we have set
+		// insertable and updateble to false.
+		// we need to do this because we now have a @ManyToOne annotation
+		// that is working on the customer_id field also.
+		// @Column(name = "customer_id", insertable = false, updatable = false)
+	   // private Integer customerId; 
+	    
+		// https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping
+		@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	    @JoinColumn(name = "customer_id", nullable = false)
+	    private Customer customer;
 		
-		@ManyToOne(fetch = FetchType.EAGER, optional = false)
+		@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		private List<OrderDetails> orderDetails;
 
-	   @JoinColumn(name = "customer_id", nullable = false)
-        private Customer customer;
-
-		@Column(name = "order_date")
-		@Temporal(TemporalType.DATE)
-		private Date orderDate;
-
-		@Column(name = "required_date")
-		@Temporal(TemporalType.DATE)
-		private Date requiredDate;
-
-		@Column(name = "shipped_date")
-		@Temporal(TemporalType.DATE)
-		private Date shippedDate;
-
-		@Column(name = "status")
-		private String status;
-
-		@Column(name = "comments", columnDefinition = "text")
-        private String comments;
+	    @Column(name = "order_date")
+	    @Temporal(TemporalType.DATE)
+	    private Date orderDate;
+	    
+	    @Column(name = "required_date")
+	    @Temporal(TemporalType.DATE)
+	    private Date requiredDate;
+	    
+	    @Column(name = "shipped_date")
+	    @Temporal(TemporalType.DATE)
+	    private Date shippedDate;
+		
+	    @Column(name = "status")
+	    private String status;
+	    
+	    @Column(name = "comments", columnDefinition="TEXT")
+	    private String comments;
 
 		public Integer getId() {
 			return id;
@@ -56,13 +69,21 @@ import javax.persistence.TemporalType;
 			this.id = id;
 		}
 
-		public Customer getCustomer() {
-			return customer;
-		}
+	//	public Integer getCustomerId() {
+	//		return customerId;
+	//	}
 
-		public void setCustomer(Customer customer) {
-			this.customer = customer;
-		}
+	//	public void setCustomerId(Integer customerId) {
+	//		this.customerId = customerId;
+	//	}
+
+	//	public Customer getCustomer() {
+	//		return customer;
+	//	}
+
+	//	public void setCustomer(Customer customer) {
+	//		this.customer = customer;
+	//	}
 
 		public Date getOrderDate() {
 			return orderDate;
@@ -103,10 +124,22 @@ import javax.persistence.TemporalType;
 		public void setComments(String comments) {
 			this.comments = comments;
 		}
+		public Customer getCustomer() {
+			return customer;
+		}
+
+		public void setCustomer(Customer customer) {
+			this.customer = customer;
+		}
+		public List<OrderDetails> getOrderDetails() {
+			return orderDetails;
+		}
+
+		public void setOrderDetails(List<OrderDetails> orderDetails) {
+			this.orderDetails = orderDetails;
+		}
 
 		
-		
-
 	}
 
 
