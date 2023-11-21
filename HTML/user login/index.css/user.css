@@ -1,0 +1,62 @@
+body {
+    display: flex;
+    margin-top: 200px;
+}
+.signing-container {
+    background-color: #E8E8E8;
+    width: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+}
+.image {
+    position: absolute;
+    margin-top: -55px;
+    z-index: 9999;
+}
+h2 {
+    background-color: #E8E8E8;
+    margin-top:  50px;
+}
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.signup-fields {
+    margin-top: 100;
+    border: .5px solid black;
+    background-color: #A7A7A7;
+    height: 30px;
+    text-align: center;
+    margin-top: 15px
+}
+#email-field {
+    border: .5px solid black;
+    background-color: #BEBEBE;
+    height: 30px;
+    text-align: center;
+    margin-top: 15px
+}
+#password-field {
+    border: .5px solid black;
+    background-color: #BEBEBE;;
+    height: 30px;
+    text-align: center;
+    margin-top: 25px
+}
+#submit-button {
+    background-color: #0FC7C7;
+    margin-top: 25px
+}
+.pass-reset {
+    margin-top: 35px;
+}
+#pass-reset {
+    color: goldenrod;
+}
+#pass-reset:active {
+    color: blue;
+}
