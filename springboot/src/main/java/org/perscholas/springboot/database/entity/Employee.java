@@ -15,13 +15,13 @@ public class Employee {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "first_name")
-    private String first_Name;
+    @Column(name = "firstname")
+    private String firstName;
 
-    @Column(name = "last_name")
-    private String last_Name;
+    @Column(name = "lastname")
+    private String lastName;
 
-    @Column(name = "department_name")
-    private String department_Name;
+    @Column(name = "departmentname")
+    private String departmentName;
 
 }

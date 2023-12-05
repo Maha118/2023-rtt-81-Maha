@@ -1,13 +1,32 @@
 <jsp:include page="../include/header.jsp"/>
+<section>
+<div class="bg-light2 pt-5 pb-5">
+<div class="row">
+<div class="col-12 text-center">
+<h1 class="m-0">Employee Form</h1>
+</div>
+</div>
+</div>
+</section>
 
-<h1>Employee Form</h1>
-<form action="/saveEmployee" method="post"><label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" required> <br>
-    <label for="last_name">Last Name:</label> <input type="text" id="last_name" name="last_name" required>
-    <br> <label for="department_name">Department Name:</label>
-    <input type="text" id="department_name"name="department_name" required> <br>
-    <button type="submit">Submit</button>
+<section class="pt-5 pb-5">
+<div class="container">
+<form method="get" action="/employee/createSubmit">
+<div class="mb-3">
+    <label for="firstname" class="form-label">First Name:</label>
+    <input type="text" class="form-control" id="firstname" name="firstname" required>
+    <div id="firstNameHelp" class="form-text">Please let us know your first name</div>
+     </div>
+     <div class="mb-3">
+    <label for="lastname" class="form-text">Last Name</label>
+    <input type="text" class="form-control" id="lastname" name="lastname" required>
+    </div>
+    <div class="mb-3">
+  <label for="departmentname" class="form-label">Department Name</label>
+    <input type="text" class="form-control" id="departmentname"name="departmentname" required>
+    </div>
+    <button type="submit" class="btn-primary">Submit</button>
 </form>
-
-
+</div>
+</section>
 <jsp:include page="../include/footer.jsp"/>

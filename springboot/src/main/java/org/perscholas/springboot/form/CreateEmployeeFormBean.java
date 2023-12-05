@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateEmployeeFormBean {
-    private String first_Name;
-    private String last_Name;
-    private String department_Name;
+    private String firstName;
+    private String lastName;
+    private String departmentName;
 
     // Getters and Setters
 }
