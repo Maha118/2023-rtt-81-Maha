@@ -44,6 +44,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstNameSearch,
                                @RequestParam(required = false) String lastNameSearch) {
@@ -78,7 +79,7 @@ public class CustomerController {
         return response;
     }
 
-    //    @GetMapping("/customer/delete/{customerId}")
+//    @GetMapping("/customer/delete/{customerId}")
 //    public ModelAndView deleteCustomer(@PathVariable int customerId) {
 //        ModelAndView response = new ModelAndView("customer/search");
 //
@@ -92,6 +93,36 @@ public class CustomerController {
 //
 //        return response;
 //    }
+
+    @GetMapping("/customer/edit/{customerId}")
+    public ModelAndView editCustomer(@PathVariable int customerId, @RequestParam(required = false) String success) {
+        log.info("######################### In /customer/edit #########################");
+        ModelAndView response = new ModelAndView("customer/create");
+
+        Customer customer = customerDao.findById(customerId);
+
+        if (!StringUtils.isEmpty(success)) {
+            response.addObject("success", success);
+        }
+
+        CreateCustomerFormBean form = new CreateCustomerFormBean();
+
+        if (customer != null) {
+            form.setId(customer.getId());
+            form.setFirstName(customer.getFirstName());
+            form.setLastName(customer.getLastName());
+            form.setPhone(customer.getPhone());
+            form.setCity(customer.getCity());
+        } else {
+            log.warn("Customer with id " + customerId + " was not found");
+        }
+
+        response.addObject("form", form);
+
+        return response;
+
+    }
+
     @GetMapping("/customer/create")
     public ModelAndView createCustomer() {
         ModelAndView response = new ModelAndView("customer/create");
@@ -103,52 +134,21 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customer/edit/{customerId}")
-    public ModelAndView editCustomer(@PathVariable int customerId) {
-        ModelAndView response = new ModelAndView("customer/create");
-
-        Customer customer = customerDao.findById(customerId);
-
-        CreateCustomerFormBean form = new CreateCustomerFormBean();
-
-        if ( customer != null ) {
-
-            form.setFirstName(customer.getFirstName());
-            form.setLastName(customer.getLastName());
-            form.setPhone(customer.getPhone());
-            form.setCity(customer.getCity());
-        } else {
-            log.warn("Customer with id " + customerId + " was not found") ;
-        }
-
-        response.addObject("form", form);
-
-        return response;
-
-    }
-
-
     // the action attribute on the form tag is set to /customer/createSubmit so this method will be called when the user clicks the submit button
     @GetMapping("/customer/createSubmit")
     public ModelAndView createCustomerSubmit(CreateCustomerFormBean form) {
-        ModelAndView response = new ModelAndView("customer/create");
+        log.info("######################### In create customer submit #########################");
 
-        log.debug("firstName: " + form.getFirstName());
-        log.info("lastName: " + form.getLastName());
-        log.info("phone: " + form.getPhone());
-        log.info("city: " + form.getCity());
+        Customer c = customerService.createCustomer(form);
 
-        Customer customer = new Customer();
-        customer.setFirstName(form.getFirstName());
-        customer.setLastName(form.getLastName());
-        customer.setPhone(form.getPhone());
-        customer.setCity(form.getCity());
+        // the view name can either be a jsp file name or a redirect to another controller method
+        ModelAndView response = new ModelAndView();
+        response.setViewName("redirect:/customer/edit/" + c.getId() + "?success=Customer Saved Successfully");
 
-        customerDao.save(customer);
 
-        log.info("In create customer with incoming args");
 
         return response;
     }
-}
 
+
+}

@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface EmployeeDAO extends JpaRepository<Employee, Long> {
     public Employee findById(int id);
-    @Query("SELECT e FROM Employee e WHERE e.firstName LIKE :firstName or e.lastName LIKE :lastName")
-    List<Employee> findByFirstNameOrLastName(String firstName, String lastName);
+    @Query("SELECT e FROM Employee e WHERE e.firstName LIKE :firstName AND e.lastName LIKE :lastName")
+    List<Employee> findByFirstNameandLastName(String firstName, String lastName);
 }

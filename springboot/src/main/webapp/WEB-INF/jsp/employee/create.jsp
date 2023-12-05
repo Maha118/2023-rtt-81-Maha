@@ -1,9 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../include/header.jsp"/>
 <section>
 <div class="bg-light2 pt-5 pb-5">
 <div class="row">
 <div class="col-12 text-center">
-<h1 class="m-0">Employee Form</h1>
+<h1 class="m-0">Employee create</h1>
 </div>
 </div>
 </div>
@@ -23,7 +24,7 @@
     </div>
     <div class="mb-3">
   <label for="departmentname" class="form-label">Department Name</label>
-    <input type="text" class="form-control" id="departmentname"name="departmentname" required>
+    <input type="text" class="form-control" id="departmentname" name="departmentname" required>
     </div>
     <button type="submit" class="btn-primary">Submit</button>
 </form>

@@ -1,6 +1,7 @@
 package org.perscholas.springboot.controller;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.springboot.database.dao.EmployeeDAO;
 import org.perscholas.springboot.database.entity.Customer;
@@ -8,6 +9,7 @@ import org.perscholas.springboot.database.entity.Employee;
 import org.perscholas.springboot.form.CreateEmployeeFormBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +43,7 @@ public class EmployeeController {
             }
 
             // we only want to do this code if the user has entered either a first name or a last name
-            List<Employee> employees = employeeDAO.findByFirstNameOrLastName(firstNameSearch, lastNameSearch);
+            List<Employee> employees = employeeDAO.findByFirstNameandLastName(firstNameSearch, lastNameSearch);
 
             response.addObject("employeeVar", employees);
 
@@ -64,7 +66,7 @@ public class EmployeeController {
 
 
     @GetMapping("/employee/createSubmit")
-    public ModelAndView createEmployeeSubmit(CreateEmployeeFormBean form) {
+    public ModelAndView createEmployeeSubmit(@Valid CreateEmployeeFormBean form, BindingResult bindingResult) {
         ModelAndView response = new ModelAndView("employee/create");
 
         log.info("firstname:" + form.getFirstName());
