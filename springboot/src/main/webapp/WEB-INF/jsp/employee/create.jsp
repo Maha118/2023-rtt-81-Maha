@@ -15,16 +15,16 @@
 <form method="get" action="/employee/createSubmit">
 <div class="mb-3">
     <label for="firstname" class="form-label">First Name:</label>
-    <input type="text" class="form-control" id="firstname" name="firstname" required>
+    <input type="text" class="form-control" id="firstname" name="firstName" required>
     <div id="firstNameHelp" class="form-text">Please let us know your first name</div>
      </div>
      <div class="mb-3">
     <label for="lastname" class="form-text">Last Name</label>
-    <input type="text" class="form-control" id="lastname" name="lastname" required>
+    <input type="text" class="form-control" id="lastname" name="lastName" required>
     </div>
     <div class="mb-3">
   <label for="departmentname" class="form-label">Department Name</label>
-    <input type="text" class="form-control" id="departmentname" name="departmentname" required>
+    <input type="text" class="form-control" id="departmentname" name="departmentName" required>
     </div>
     <button type="submit" class="btn-primary">Submit</button>
 </form>
