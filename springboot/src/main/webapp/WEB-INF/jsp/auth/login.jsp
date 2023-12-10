@@ -10,30 +10,35 @@
         </div>
     </div>
 </section>
-
+<c:if test="${param['error'] eq ''}">
+    <section class="pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-danger w-100 mb-0">Invalid Username or Password</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</c:if>
 <section class="pt-5 pb-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-6">
                 <!-- the action attribute on the form tag is the URL that the form will submit to when then user clicks the submit button -->
                 <form method="post" action="/auth/loginSubmit">
-
                     <div class="mt-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username">
                     </div>
-
                     <div class="mt-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="text" class="form-control" id="password" name="password">
                     </div>
-
                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                 </form>
-
             </div>
         </div>
     </div>
 </section>
-
 <jsp:include page="../include/footer.jsp"/>

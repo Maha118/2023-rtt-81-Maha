@@ -67,6 +67,7 @@
                                 <td>${customer.lastName}</td>
                                 <td>${customer.phone}</td>
                                 <td>${customer.city}</td>
+                                <td><img src="${customer.imageUrl}" style="max-width:100px"></td>
                                 <td><a href="/customer/edit/${customer.id}">Edit</a></td>
                             </tr>
                         </c:forEach>
@@ -76,6 +77,5 @@
         </div>
     </section>
 </c:if>
-
 
 <jsp:include page="../include/footer.jsp"/>

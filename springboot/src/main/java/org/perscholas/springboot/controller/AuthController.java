@@ -8,7 +8,6 @@ import org.perscholas.springboot.database.entity.User;
 import org.perscholas.springboot.form.RegisterUserFormBean;
 import org.perscholas.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -63,6 +62,5 @@ public class AuthController {
 
         return response;
     }
-
 
 }

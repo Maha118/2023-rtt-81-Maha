@@ -33,28 +33,27 @@ public class SecurityConfig {
 
         // this is telling us the URL for the login page and the URL to submit the login form
         http.formLogin(formLogin -> formLogin
+
                 // this is the URL for the login page
                 .loginPage("/auth/login")
+
                 // this is the URL to submit the login form
                 .loginProcessingUrl("/auth/loginSubmit"));
 
         // this is telling spring security to logout when we hit the /login/logout URL
         http.logout(formLogout -> formLogout
                 .invalidateHttpSession(true)
+
                 // this is the URL to submit the logout form
                 .logoutUrl("/auth/logout")
+
                 // this is the URL to go to after logout
                 .logoutSuccessUrl("/"));
-
         return http.build();
     }
-
-
     @Bean(name = "passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 }
 

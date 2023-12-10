@@ -1,13 +1,22 @@
 package org.perscholas.springboot.controller;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.springboot.database.dao.CustomerDAO;
 import org.perscholas.springboot.database.entity.Customer;
 import org.perscholas.springboot.form.CreateCustomerFormBean;
 import org.perscholas.springboot.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +34,7 @@ public class CustomerController {
     // change the query to search by first name OR last name
     // change the query to use like for both first name and last name
     // make both search fields populate the user input if it was given
+
 
     // --- component scan phase 1
     // 1. Find all classes with @Component, @Service, @Repository, @Controller, @RestController and instantiate them and add them to the spring context
@@ -70,7 +80,6 @@ public class CustomerController {
 
             response.addObject("customerVar", customers);
 
-
             for (Customer customer : customers) {
                 log.debug("customer: id = " + customer.getId() + " last name = " + customer.getLastName());
             }
@@ -113,6 +122,7 @@ public class CustomerController {
             form.setLastName(customer.getLastName());
             form.setPhone(customer.getPhone());
             form.setCity(customer.getCity());
+            form.setImageUrl(customer.getImageUrl());
         } else {
             log.warn("Customer with id " + customerId + " was not found");
         }
@@ -136,8 +146,22 @@ public class CustomerController {
 
     // the action attribute on the form tag is set to /customer/createSubmit so this method will be called when the user clicks the submit button
     @GetMapping("/customer/createSubmit")
-    public ModelAndView createCustomerSubmit(CreateCustomerFormBean form) {
-        log.info("######################### In create customer submit #########################");
+    public ModelAndView createCustomerSubmit(@Valid CreateCustomerFormBean form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("######################### In create customer submit - has errors #########################");
+            ModelAndView response = new ModelAndView("customer/create");
+
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                log.info("error: " + error.getDefaultMessage());
+            }
+
+            response.addObject("form", form);
+            response.addObject("errors", bindingResult);
+            return response;
+        }
+
+        log.info("######################### In create customer submit - no error found #########################");
 
         Customer c = customerService.createCustomer(form);
 
@@ -145,9 +169,9 @@ public class CustomerController {
         ModelAndView response = new ModelAndView();
         response.setViewName("redirect:/customer/edit/" + c.getId() + "?success=Customer Saved Successfully");
 
-
-
         return response;
+
+
     }
 
 
