@@ -2,23 +2,20 @@ package org.perscholas.springboot.controller;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.springboot.database.dao.CustomerDAO;
 import org.perscholas.springboot.database.entity.Customer;
+import org.perscholas.springboot.database.entity.User;
 import org.perscholas.springboot.form.CreateCustomerFormBean;
+import org.perscholas.springboot.service.AuthenticatedUserService;
 import org.perscholas.springboot.service.CustomerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,12 +45,14 @@ public class CustomerController {
     // -- component scan phase 3
     // 1. Run all of the methods marked with @PostConstruct
 
-
     @Autowired
     private CustomerDAO customerDao;
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
+
 
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstNameSearch,
@@ -79,6 +78,7 @@ public class CustomerController {
             List<Customer> customers = customerDao.findByFirstNameOrLastName(firstNameSearch, lastNameSearch);
 
             response.addObject("customerVar", customers);
+
 
             for (Customer customer : customers) {
                 log.debug("customer: id = " + customer.getId() + " last name = " + customer.getLastName());
@@ -174,5 +174,39 @@ public class CustomerController {
 
     }
 
+    @GetMapping("/customer/myCustomers")
+    public void myCustomers() {
+        log.info("######################### In my customers #########################");
+
+        // 1) Use the authenticated user service to find the logged in user
+        User user = authenticatedUserService.loadCurrentUser();
+
+        // 2) Create a DAO method that will find by userId
+        // 3) use the authenticated user id to find a list of all customers created by this user
+        List<Customer> customers = customerDao.findByUserId(user.getId());
+
+        // 4) loop over the customers created and log.debug the customer id and customer last name
+        for ( Customer customer : customers ) {
+            log.debug("customer: id = " + customer.getId() + " last name = " + customer.getLastName());
+        }
+    }
+    @RequestMapping("/customer/detail")
+    public ModelAndView detail(@RequestParam Integer id) {
+        ModelAndView response = new ModelAndView("customer/detail");
+
+        Customer customer = customerDao.findById(id);
+
+        if ( customer == null ) {
+            log.warn("Customer with id " + id + " was not found");
+            // in a real application you might redirect to a 404 here because the custoemr was nto found
+            response.setViewName("redirect:/error/404");
+            return response;
+        }
+
+        response.addObject("customer", customer);
+
+        return response;
+    }
 
 }
+

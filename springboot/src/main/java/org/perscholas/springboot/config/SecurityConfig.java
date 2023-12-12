@@ -3,6 +3,8 @@ package org.perscholas.springboot.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,33 +29,41 @@ public class SecurityConfig {
         // this block of code determines which requests are authenticated
         http.authorizeRequests()
                 .requestMatchers(
+                        // this will make all requests to /customer/** require authentication
+                        // we will now have to authenticate to user our customer search or customer create pages
+                        new AntPathRequestMatcher("/customer/**"),
+                        new AntPathRequestMatcher("/schedule/**"),
                         new AntPathRequestMatcher("/admin/**"),
                         new AntPathRequestMatcher("/user/**")).authenticated()
                 .anyRequest().permitAll();
 
         // this is telling us the URL for the login page and the URL to submit the login form
         http.formLogin(formLogin -> formLogin
-
                 // this is the URL for the login page
                 .loginPage("/auth/login")
-
                 // this is the URL to submit the login form
                 .loginProcessingUrl("/auth/loginSubmit"));
 
         // this is telling spring security to logout when we hit the /login/logout URL
         http.logout(formLogout -> formLogout
                 .invalidateHttpSession(true)
-
                 // this is the URL to submit the logout form
                 .logoutUrl("/auth/logout")
-
                 // this is the URL to go to after logout
                 .logoutSuccessUrl("/"));
+
         return http.build();
     }
+
+
     @Bean(name = "passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }
 
